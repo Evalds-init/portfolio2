@@ -1,0 +1,94 @@
+type User @model @searchable @key(fields: ["name"]) {
+  id: ID!
+  name: String!
+  email: String!
+  userId: String!
+  phone: String
+  aboutMe: String
+  groups: [UserGroup] @connection(keyName: "byMember", fields: ["name"])
+  image: String
+  friends: [Friend]
+    @connection(name: "UserFriends", sortField: "name", limit: 20)
+  messages: [Message] @connection(name: "UserMessages", limit: 10)
+  groupMessages: [GroupMessage]
+    @connection(name: "UserGroupMessages", limit: 10)
+}
+type UserGroup
+  @model(queries: null)
+  @key(name: "byGroup", fields: ["groupID", "memberID"])
+  @key(name: "byMember", fields: ["memberID", "groupID"]) {
+  id: ID!
+  groupID: ID!
+  memberID: String!
+  group: Group! @connection(fields: ["groupID"])
+  member: User! @connection(fields: ["memberID"])
+}
+type GroupMessage @model(subscriptions: null) {
+  id: ID!
+  text: String
+  user: User @connection(name: "UserGroupMessages")
+  media: String
+  avatar: String
+  group: Group
+    @connection(name: "GroupGroupMessages", sortField: "createdAt", limit: 10)
+  groupMessageGroupId: String
+  messageUserName: String
+  createdAt: AWSDateTime
+}
+type Group @model {
+  id: ID!
+  name: String
+  description: String
+  members: [UserGroup] @connection(keyName: "byGroup", fields: ["id"])
+  messages: [GroupMessage]
+    @connection(name: "GroupGroupMessages", sortField: "createdAt", limit: 10)
+  createdAt: AWSDateTime
+  media: String
+}
+type Friend @model {
+  id: ID!
+  name: String
+  friendImage: String
+  requester: String
+  friend: User @connection(name: "UserFriends")
+  friendFriendId: ID!
+  friendChannelId: ID!
+  channel: Channel @connection(name: "ChannelFriends")
+  request: String
+  blocked: String
+  createdAt: AWSDateTime
+}
+
+type Message @model(subscriptions: null) {
+  id: ID!
+  text: String
+  user: User @connection(name: "UserMessages")
+  media: String
+  avatar: String
+  channel: Channel
+    @connection(name: "ChannelMessages", sortField: "createdAt", limit: 10)
+  messageChannelId: String
+  messageUserName: String
+  createdAt: AWSDateTime
+}
+
+type Channel @model {
+  id: ID!
+  name: String
+  description: String
+  friends: [Friend] @connection(name: "ChannelFriends")
+  messages: [Message]
+    @connection(name: "ChannelMessages", sortField: "createdAt", limit: 10)
+  createdAt: AWSDateTime
+  image: String
+}
+
+type Subscription {
+  onCreateMessage(messageChannelId: String): Message
+    @aws_subscribe(mutations: ["createMessage"])
+  onCreateGroupMessage(groupMessageGroupId: String): GroupMessage
+    @aws_subscribe(mutations: ["createGroupMessage"])
+  onUserMutation(name: String): User @aws_subscribe(mutations: ["updateUser"])
+  onFriendMutation(friendFriendId: String): Friend
+    @aws_subscribe(mutations: ["updateFriend", "createFriend"])
+}
