@@ -1,8 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import FriendHeader from './FriendHeader';
 import FriendList from './FriendList';
 import SearchField from './SearchField';
-function FriendFrame({ user }) {
+import { FriendContext } from '../../context/friends/FriendState';
+function FriendFrame() {
+  const friendContext = useContext(FriendContext);
+  const { friends } = friendContext;
   const [showSearch, setShowSearch] = useReducer(
     (showSearch) => !showSearch,
     false
@@ -11,7 +14,7 @@ function FriendFrame({ user }) {
     <>
       <FriendHeader setShowSearch={setShowSearch} showSearch={showSearch} />
       {showSearch && <SearchField />}
-      <FriendList user={user} />
+      {friends && <FriendList />}
     </>
   );
 }

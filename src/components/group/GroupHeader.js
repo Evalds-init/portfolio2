@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ChannelList from './ChannelList';
+import ChannelList from './GroupList';
 import Typography from '@material-ui/core/Typography';
 import GroupsIcon from '@material-ui/icons/Group';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,14 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChannelHeader() {
+export default function GroupHeader() {
   const channelContext = useContext(ChannelContext);
-  const { getChannels } = channelContext;
+  const { getAllGroups } = channelContext;
 
   const classes = useStyles();
   useEffect(() => {
-    getChannels();
-    console.log('got');
+    getAllGroups();
+    // eslint-disable-next-line
   }, []);
 
   return (

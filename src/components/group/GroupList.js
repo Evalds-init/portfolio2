@@ -6,13 +6,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList } from 'react-window';
 import { ChannelContext } from '../../context/channels/ChannelState';
 import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
+
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import WorkIcon from '@material-ui/icons/Work';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ChatIcon from '@material-ui/icons/Chat';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -24,27 +24,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function renderRow(props) {
-  const { data, index, style } = props;
-  const { getSingleChannel, channels, history } = data;
+  const { data, index } = props;
+  const { getSingleGroup, groups, history } = data;
 
   const enterChat = () => {
-    getSingleChannel(channels[index].id);
+    getSingleGroup(groups[index].id);
     history.push('/channelchat');
   };
   const viewChannel = () => {
-    getSingleChannel(channels[index].id);
+    getSingleGroup(groups[index].id);
     history.push('/channelinfo');
   };
   return (
     <>
-      {channels.length > 0 && (
+      {groups.length > 0 && (
         <ListItem style={{ paddingLeft: '2rem' }} key={index}>
           <ListItemAvatar onClick={viewChannel}>
             <Avatar>
               <WorkIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={channels[index].name} />
+          <ListItemText primary={groups[index].name} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
@@ -66,12 +66,12 @@ renderRow.propTypes = {
   style: PropTypes.object.isRequired,
 };
 
-export default function ChannelList() {
+export default function GroupList() {
   const classes = useStyles();
   let history = useHistory();
   const channelContext = useContext(ChannelContext);
-  const { channels, getSingleChannel } = channelContext;
-  const length = channels.length;
+  const { groups, getSingleGroup } = channelContext;
+  const length = groups.length;
   return (
     <div className={classes.root}>
       <FixedSizeList
@@ -79,7 +79,7 @@ export default function ChannelList() {
         width={250}
         itemSize={50}
         itemCount={length}
-        itemData={{ channels, getSingleChannel, history }}
+        itemData={{ groups, getSingleGroup, history }}
       >
         {renderRow}
       </FixedSizeList>

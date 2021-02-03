@@ -17,6 +17,7 @@ export const onCreateMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -68,6 +69,7 @@ export const onCreateGroupMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -94,6 +96,7 @@ export const onCreateGroupMessage = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       groupMessageGroupId
@@ -123,6 +126,7 @@ export const onUserMutation = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -187,6 +191,7 @@ export const onFriendMutation = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -242,6 +247,7 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -308,6 +314,7 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -374,6 +381,7 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -438,6 +446,7 @@ export const onCreateUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -451,6 +460,7 @@ export const onCreateUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -486,6 +496,7 @@ export const onUpdateUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -499,6 +510,7 @@ export const onUpdateUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -534,6 +546,7 @@ export const onDeleteUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -547,6 +560,7 @@ export const onDeleteUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -595,6 +609,7 @@ export const onCreateGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -630,6 +645,7 @@ export const onUpdateGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -665,6 +681,7 @@ export const onDeleteGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -687,6 +704,7 @@ export const onCreateFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -740,6 +758,7 @@ export const onUpdateFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -793,6 +812,7 @@ export const onDeleteFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }

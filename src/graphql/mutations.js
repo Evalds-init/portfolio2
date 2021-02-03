@@ -24,6 +24,7 @@ export const createUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -93,6 +94,7 @@ export const updateUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -162,6 +164,7 @@ export const deleteUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -229,6 +232,7 @@ export const createUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -242,6 +246,7 @@ export const createUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -280,6 +285,7 @@ export const updateUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -293,6 +299,7 @@ export const updateUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -331,6 +338,7 @@ export const deleteUserGroup = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       member {
@@ -344,6 +352,7 @@ export const deleteUserGroup = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -380,6 +389,7 @@ export const createGroupMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -406,6 +416,7 @@ export const createGroupMessage = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       groupMessageGroupId
@@ -434,6 +445,7 @@ export const updateGroupMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -460,6 +472,7 @@ export const updateGroupMessage = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       groupMessageGroupId
@@ -488,6 +501,7 @@ export const deleteGroupMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -514,6 +528,7 @@ export const deleteGroupMessage = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       groupMessageGroupId
@@ -557,6 +572,7 @@ export const createGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -595,6 +611,7 @@ export const updateGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -633,6 +650,7 @@ export const deleteGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -658,6 +676,7 @@ export const createFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -714,6 +733,7 @@ export const updateFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -770,6 +790,7 @@ export const deleteFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -824,6 +845,7 @@ export const createMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -878,6 +900,7 @@ export const updateMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -932,6 +955,7 @@ export const deleteMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }

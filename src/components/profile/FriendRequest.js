@@ -1,129 +1,93 @@
 import React, { useEffect, useContext } from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import cx from 'clsx';
+import { useHistory } from 'react-router-dom';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
+import { useSlopeCardMediaStyles } from '@mui-treasury/styles/cardMedia/slope';
+import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n01';
+import TextInfoContent from '@mui-treasury/components/content/textInfo';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import HowToRegIcon from '@material-ui/icons/HowToReg';
 import { ChannelContext } from '../../context/channels/ChannelState';
 import { UserContext } from '../../context/user/UserState';
 import { FriendContext } from '../../context/friends/FriendState';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
-    width: '100%',
-    height: '80vh',
-    backgroundColor: theme.palette.background.paper,
+    maxWidth: 600,
     margin: 'auto',
   },
-  large: {
-    width: theme.spacing(15),
-    height: theme.spacing(15),
-    marginBottom: '2rem',
+  content: {
+    padding: 24,
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    width: '80%',
-    height: '70vh',
-    color: theme.palette.text.secondary,
-    marginTop: '10%',
-  },
-  header: {
-    color: '#0069d9',
-    marginBottom: '3rem',
-  },
-  icon: {
-    height: '25vh',
+  avatar: {
+    width: 100,
+    height: 100,
+    border: '2px solid #fff',
+    margin: '-68px 12px 0 auto',
+    '& > img': {
+      margin: 0,
+    },
   },
 }));
-function FriendRequest({ setDisplayItem = (f) => f }) {
-  const classes = useStyles();
+function FriendRequest() {
+  let history = useHistory();
+  const cardStyles = useStyles();
+  const mediaStyles = useSlopeCardMediaStyles();
+  const textCardContentStyles = useN01TextInfoContentStyles();
   const friendContext = useContext(FriendContext);
   const channelContext = useContext(ChannelContext);
   const userContext = useContext(UserContext);
-  const { acceptFriend, rejectFriendRequest, clearProfile } = friendContext;
-  const { profile } = channelContext;
+  const { acceptFriend, rejectFriendRequest } = friendContext;
+  const { profile, loadingProfile, clearProfile } = channelContext;
   const { user } = userContext;
   const acceptFriendRequest = () => {
     const friend = profile.name;
     const username = user.name;
     acceptFriend(friend, username);
-    setDisplayItem('');
+    history.push('/');
   };
   const rejectRequest = () => {
     const friend = profile.name;
     const username = user.name;
     rejectFriendRequest(friend, username);
-    setDisplayItem('');
+    history.push('/');
   };
   useEffect(() => {
     return () => {
       clearProfile();
     };
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    !loadingProfile && !profile && history.push('/');
+    // eslint-disable-next-line
   }, []);
   return (
-    <div className={classes.root}>
-      <Grid container direction="column" justify="center" alignItems="center">
-        <Paper className={classes.paper} elevation={3}>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            {' '}
-            <Avatar
-              alt="Remy Sharp"
-              src={profile?.image && profile.image}
-              className={classes.large}
-            />
-            <Grid item xs={12}>
-              {' '}
-              <Typography
-                variant="h5"
-                gutterBottom
-                align="center"
-                className={classes.header}
-              >
-                {profile?.name && profile.name}
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              className={classes.icon}
-            >
-              <Grid item xs={12}>
-                {' '}
-                <Typography variant="subtitle2" paragraph align="center">
-                  {profile?.aboutMe && profile.aboutMe}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <IconButton
-                color="secondary"
-                aria-label="add a friend"
-                onClick={rejectRequest}
-              >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
-              <IconButton
-                color="secondary"
-                aria-label="add a friend"
-                onClick={acceptFriendRequest}
-              >
-                <HowToRegIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-    </div>
+    <Card className={cx(cardStyles.root)}>
+      <CardMedia classes={mediaStyles} image={profile?.image} />
+      <Avatar className={cardStyles.avatar} src={profile?.avatar} />
+      <CardContent className={cardStyles.content}>
+        <TextInfoContent
+          classes={textCardContentStyles}
+          heading={profile?.name.toUpperCase()}
+          body={profile?.aboutMe}
+        />
+      </CardContent>
+      <Box px={2} pb={2} mt={-1}>
+        <IconButton onClick={acceptFriendRequest}>
+          <PersonAddSharpIcon />
+        </IconButton>
+        <IconButton>
+          <RemoveCircleOutlineIcon onClick={rejectRequest} />
+        </IconButton>
+      </Box>
+    </Card>
   );
 }
 

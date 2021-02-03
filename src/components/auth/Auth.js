@@ -10,23 +10,23 @@ import { UserContext } from '../../context/user/UserState';
 
 function Auth() {
   const [authState, setAuthState] = React.useState();
-  const [user, setUser] = React.useState();
+  const [authUser, setAuthUser] = React.useState();
   const userContext = useContext(UserContext);
-  const { getAuthUser } = userContext;
+  const { getAuthUser, user } = userContext;
 
   React.useEffect(() => {
     onAuthUIStateChange((nextAuthState, authData) => {
       setAuthState(nextAuthState);
-      setUser(authData);
+      setAuthUser(authData);
     });
   }, []);
   React.useEffect(() => {
-    if (user) {
-      getAuthUser(user);
-      console.log(user);
+    if (authUser) {
+      getAuthUser(authUser);
     }
-  }, [user]);
-  return authState === AuthState.SignedIn && user ? (
+    // eslint-disable-next-line
+  }, [authUser]);
+  return authState === AuthState.SignedIn && authUser && user ? (
     <Sidenav />
   ) : (
     <div>

@@ -12,6 +12,8 @@ import HourglassIcon from '@material-ui/icons/HourglassFullTwoTone';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import IconButton from '@material-ui/core/IconButton';
 import { ChannelContext } from '../../context/channels/ChannelState';
+import { FriendContext } from '../../context/friends/FriendState';
+import { UserContext } from '../../context/user/UserState';
 import { Link, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -27,37 +29,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function renderRow(props) {
-  const { index, style, data } = props;
-  const { getSingleProfile, users, history, getFriendChannel } = data;
-  const getProfile = (e, value) => {
-    users[index].request === 'pending'
+  const { index, data } = props;
+  const {
+    getSingleProfile,
+    updatedFriendList,
+    history,
+    getFriendChannel,
+  } = data;
+  const getProfile = () => {
+    updatedFriendList[index].request === 'pending'
       ? history.push('friendrequest')
       : history.push('friendprofile');
-    getSingleProfile(users[index].name);
+    getSingleProfile(updatedFriendList[index].name);
   };
   const openChat = () => {
-    getFriendChannel(users[index].friendChannelId);
+    getFriendChannel(updatedFriendList[index].friendChannelId);
   };
   return (
     <>
-      {users.length > 0 && (
+      {updatedFriendList.length > 0 && (
         <List>
           <ListItem key={index} button>
             <ListItemAvatar onClick={getProfile}>
               <Avatar
-                alt={users[index]?.name}
+                alt={updatedFriendList[index]?.name}
                 src={
-                  users[index]?.requesterImage && users[index].requesterImage
+                  updatedFriendList[index]?.avatar
+                    ? updatedFriendList[index].avatar
+                    : updatedFriendList[index]?.friendImage &&
+                      updatedFriendList[index].friendImage
                 }
               />
             </ListItemAvatar>
-            <ListItemText id={users[index]?.id} primary={users[index]?.name} />
+            <ListItemText
+              id={updatedFriendList[index]?.id}
+              primary={updatedFriendList[index]?.name.toUpperCase()}
+            />
             <ListItemSecondaryAction>
-              {users[index]?.request === 'pending' ? (
+              {updatedFriendList[index]?.request === 'pending' ? (
                 <IconButton edge="end" aria-label="delete">
                   <AnnouncementIcon />
                 </IconButton>
-              ) : users[index]?.request === 'sent' ? (
+              ) : updatedFriendList[index]?.request === 'sent' ? (
                 <IconButton edge="end" aria-label="delete">
                   <HourglassIcon />
                 </IconButton>
@@ -85,13 +98,26 @@ renderRow.propTypes = {
   style: PropTypes.object.isRequired,
 };
 
-export default function FriendList({ user }) {
+export default function FriendList() {
   const classes = useStyles();
   let history = useHistory();
-  const length = user?.friends?.items?.length || 0;
   const channelContext = useContext(ChannelContext);
-  const { getSingleProfile, getFriendChannel } = channelContext;
-  let users = user?.friends?.items || [];
+  const friendContext = useContext(FriendContext);
+  const userContext = useContext(UserContext);
+  const { getSingleProfile  } = channelContext;
+  const { friends, getFriendChannel } = friendContext;
+  const { user } = userContext;
+  const length = friends?.length || 0;
+  let updatedFriendList = [];
+  for (let i = 0; i < friends.length; i++) {
+    updatedFriendList.push({
+      ...friends[i],
+      ...user.friends.items.find(
+        (itmInner) => itmInner.name === friends[i].name
+      ),
+    });
+  }
+
   return (
     <div className={classes.root}>
       <FixedSizeList
@@ -99,7 +125,12 @@ export default function FriendList({ user }) {
         width={220}
         itemSize={40}
         itemCount={length}
-        itemData={{ users, getSingleProfile, getFriendChannel, history }}
+        itemData={{
+          updatedFriendList,
+          getSingleProfile,
+          getFriendChannel,
+          history,
+        }}
       >
         {renderRow}
       </FixedSizeList>

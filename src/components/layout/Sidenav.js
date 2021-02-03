@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,24 +14,25 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import WavesIcon from '@material-ui/icons/Waves';
-import Message from '@material-ui/icons/Message';
 import UserAvatar from '../user/UserAvatar';
-import Button from '@material-ui/core/Button';
 import { UserContext } from '../../context/user/UserState';
 import { ChannelContext } from '../../context/channels/ChannelState';
-import ChannelHeader from '../channels/ChannelHeader';
-import FriendFrame from '../friends/FriendFrame';
-import CreateChannel from '../channels/CreateChannel';
-import ChannelChat from '../chat/channel/ChannelChat';
-import Preloader from '../../utils/Preloader';
+import { FriendContext } from '../../context/friends/FriendState';
+import ChannelHeader from '../group/GroupHeader';
+import FriendFrame from '../friend/FriendFrame';
+import CreateChannel from '../group/CreateGroup';
+import ChannelChat from '../chat/group/GroupChat';
 import Profile from '../profile/Profile';
+import MyProfile from '../profile/MyProfile';
 import FriendRequest from '../profile/FriendRequest';
 import FriendProfile from '../profile/FriendProfile';
-import FriendChat from '../chat/friends/FriendChat';
-import ChannelInfo from '../channels/ChannelInfo';
+import FriendChat from '../chat/friend/FriendChat';
+import ChannelInfo from '../group/GroupInfo';
 import EditProfileForm from '../user/EditProfileForm';
 import BarMenu from './BarMenu';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { API, graphqlOperation } from 'aws-amplify';
+import { onUserMutation, onFriendMutation } from '../../graphql/subscriptions';
 
 const drawerWidth = 240;
 
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
+    backgroundColor: '#E59400',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -87,13 +89,64 @@ function Sidenav({ ...props }) {
   // check if the user is authorized
   const userContext = useContext(UserContext);
   const channelContext = useContext(ChannelContext);
-  const { channel, profile } = channelContext;
-  const { user } = userContext;
+  const friendContext = useContext(FriendContext);
+  const { group, friendChannel } = channelContext;
+  const { fetchFriends, addFriendSubsciption } = friendContext;
+  const { user, userSubscription } = userContext;
   const [sidenavItem, setSidenavItem] = useState('friend');
-  let history = useHistory();
 
+  useEffect(() => {
+    var subscribe = subscribeToUser();
+
+    return () => {
+      subscribe.unsubscribe();
+    };
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    fetchFriends(user.friends.items);
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    var subscribe = subscribeToAddFriend();
+    return () => {
+      subscribe.unsubscribe();
+    };
+    // eslint-disable-next-line
+  }, []);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const subscribeToUser = () => {
+    const input = {
+      name: user.name,
+    };
+    const subscribe = API.graphql(
+      graphqlOperation(onUserMutation, input)
+    ).subscribe({
+      next: (noteData) => {
+        if (noteData.value.data.onUserMutation) {
+          var user = noteData.value.data.onUserMutation;
+        }
+        userSubscription(user);
+      },
+    });
+    return subscribe;
+  };
+  const subscribeToAddFriend = () => {
+    const input = {
+      friendFriendId: user.name,
+    };
+    const subscribe = API.graphql(
+      graphqlOperation(onFriendMutation, input)
+    ).subscribe({
+      next: (noteData) => {
+        if (noteData.value.data.onFriendMutation) {
+          addFriendSubsciption(noteData.value.data.onFriendMutation);
+        }
+      },
+    });
+    return subscribe;
   };
 
   const friendDrawer = (
@@ -108,7 +161,9 @@ function Sidenav({ ...props }) {
       </List>
       <div className={classes.toolbar}>
         <Divider />
-        <FriendFrame user={user} />
+        <UserAvatar />
+        <Divider />
+        <FriendFrame />
       </div>
     </>
   );
@@ -124,26 +179,11 @@ function Sidenav({ ...props }) {
       </List>
       <div className={classes.toolbar}>
         <Divider />
+        <UserAvatar />
+        <Divider />
         <ChannelHeader />
       </div>
     </>
-  );
-
-  const userDrawer = (
-    <div>
-      <List>
-        <ListItem button>
-          <WavesIcon style={{ margin: 'auto', color: '#9dbf8e' }} />
-          <Typography variant="h6" noWrap>
-            React Transmition
-          </Typography>
-        </ListItem>
-      </List>
-      <div className={classes.toolbar}>
-        <Divider />
-        <UserAvatar />
-      </div>
-    </div>
   );
 
   const container =
@@ -151,33 +191,37 @@ function Sidenav({ ...props }) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Message style={{ marginRight: '1rem', color: '#fff' }} />
-          <Typography variant="h5" noWrap>
-            {channel && '#'}
-          </Typography>
-
-          <Typography variant="h6" noWrap>
-            {channel?.name ? channel.name : profile?.name && profile.name}
-          </Typography>
-          <BarMenu
-            setSidenavItem={setSidenavItem}
-            setMobileOpen={setMobileOpen}
-          />
-        </Toolbar>
-      </AppBar>{' '}
       <BrowserRouter>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="h5" noWrap>
+              {group && '#'}
+            </Typography>
+
+            <Typography variant="h6" noWrap>
+              {group?.name
+                ? group.name
+                : friendChannel &&
+                  friendChannel.friends.items[0].name.toUpperCase()}
+            </Typography>
+
+            <BarMenu
+              setSidenavItem={setSidenavItem}
+              setMobileOpen={setMobileOpen}
+            />
+          </Toolbar>
+        </AppBar>{' '}
         <nav className={classes.drawer} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
@@ -196,9 +240,7 @@ function Sidenav({ ...props }) {
             >
               {sidenavItem === 'friend'
                 ? friendDrawer
-                : sidenavItem === 'group'
-                ? groupDrawer
-                : userDrawer}
+                : sidenavItem === 'group' && groupDrawer}
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -211,9 +253,7 @@ function Sidenav({ ...props }) {
             >
               {sidenavItem === 'friend'
                 ? friendDrawer
-                : sidenavItem === 'group'
-                ? groupDrawer
-                : userDrawer}
+                : sidenavItem === 'group' && groupDrawer}
             </Drawer>
           </Hidden>
         </nav>
@@ -226,6 +266,7 @@ function Sidenav({ ...props }) {
             <Route path="/friendprofile" render={() => <FriendProfile />} />
             <Route path="/friendrequest" render={() => <FriendRequest />} />
             <Route path="/profile" render={() => <Profile />} />
+            <Route path="/myprofile" render={() => <MyProfile />} />
             <Route path="/channelchat" render={() => <ChannelChat />} />
             <Route path="/createchannel" render={() => <CreateChannel />} />
             <Route path="/channelinfo" render={() => <ChannelInfo />} />

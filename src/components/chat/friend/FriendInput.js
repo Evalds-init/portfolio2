@@ -1,26 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
-import { ChannelContext } from '../../../context/channels/ChannelState';
+import { FriendContext } from '../../../context/friends/FriendState';
 import { UserContext } from '../../../context/user/UserState';
 import SendIcon from '@material-ui/icons/Send';
-function ChannelInput() {
+function FriendInput() {
   const [text, setText] = useState('');
-  const channelContext = useContext(ChannelContext);
+  const friendContext = useContext(FriendContext);
   const userContext = useContext(UserContext);
-  const { postChannelMessage, friendChannel } = channelContext;
+  const { postFriendMessage, friendChannel } = friendContext;
   const { user } = userContext;
 
   const postMessage = () => {
     const input = {
       text: text,
       messageChannelId: friendChannel.id,
-      messageUserId: user.name,
       messageUserName: user.name,
-      media: user.image,
+      avatar: user.image,
     };
-    postChannelMessage(input);
+    postFriendMessage(input);
     setText('');
   };
   const onChange = (e) => {
@@ -40,12 +39,12 @@ function ChannelInput() {
         />
       </Grid>
       <Grid item xs={1} align="right">
-        <Fab color="primary" aria-label="add">
-          <SendIcon onClick={postMessage} />
+        <Fab color="primary" aria-label="add" onClick={postMessage}>
+          <SendIcon />
         </Fab>
       </Grid>
     </Grid>
   );
 }
 
-export default ChannelInput;
+export default FriendInput;

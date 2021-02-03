@@ -21,6 +21,7 @@ export const getUser = /* GraphQL */ `
         nextToken
       }
       image
+      avatar
       friends {
         items {
           id
@@ -93,6 +94,7 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -125,6 +127,7 @@ export const getGroupMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -151,6 +154,7 @@ export const getGroupMessage = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       groupMessageGroupId
@@ -178,6 +182,7 @@ export const listGroupMessages = /* GraphQL */ `
           phone
           aboutMe
           image
+          avatar
           createdAt
           updatedAt
         }
@@ -189,6 +194,7 @@ export const listGroupMessages = /* GraphQL */ `
           description
           createdAt
           media
+          avatar
           updatedAt
         }
         groupMessageGroupId
@@ -231,6 +237,7 @@ export const getGroup = /* GraphQL */ `
       }
       createdAt
       media
+      avatar
       updatedAt
     }
   }
@@ -254,6 +261,7 @@ export const listGroups = /* GraphQL */ `
         }
         createdAt
         media
+        avatar
         updatedAt
       }
       nextToken
@@ -278,6 +286,7 @@ export const getFriend = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -333,6 +342,7 @@ export const listFriends = /* GraphQL */ `
           phone
           aboutMe
           image
+          avatar
           createdAt
           updatedAt
         }
@@ -371,6 +381,7 @@ export const getMessage = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }
@@ -424,6 +435,7 @@ export const listMessages = /* GraphQL */ `
           phone
           aboutMe
           image
+          avatar
           createdAt
           updatedAt
         }
@@ -537,6 +549,7 @@ export const searchUsers = /* GraphQL */ `
           nextToken
         }
         image
+        avatar
         friends {
           nextToken
         }

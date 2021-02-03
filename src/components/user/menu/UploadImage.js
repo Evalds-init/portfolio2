@@ -16,26 +16,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UploadButtons() {
-  const useContext = useContext(UserContext);
-  const { user, updateCurrentUser } = useContext;
+  const userContext = useContext(UserContext);
+  const { user, updateCurrentUser } = userContext;
   const classes = useStyles();
   const onChange = (e) => {
-    const input = {
+    let number = Math.floor(Math.random() * 10 + 1);
+    const data = {
       id: user.id,
       name: user.name,
-      email: user.email,
-      userId: user.userId,
-      phone: user.phone,
-      aboutMe: user.aboutMe,
-      image: `https://agora69ee83a136fe49c88773e39cdc2de328140432-dev.s3-eu-west-1.amazonaws.com/public/${user.name}.jpg`,
+      avatar: `https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/avatar${number}${user.name}.jpg`,
     };
 
     const file = e.target.files[0];
 
-    Storage.put(`${user.name}.jpg`, file, {
+    Storage.put(`avatar${number}${user.name}.jpg`, file, {
       contentType: 'image/png',
     })
-      .then((result) => updateCurrentUser(input))
+      .then((result) => updateCurrentUser(data))
       .catch((err) => console.log(err));
   };
 
@@ -44,13 +41,13 @@ export default function UploadButtons() {
       <input
         accept="image/*"
         className={classes.input}
-        id="contained-button-file"
+        id="side-nav-input"
         multiple
         onChange={onChange}
         type="file"
       />
 
-      <label htmlFor="contained-button-file">
+      <label htmlFor="side-nav-input">
         <Button
           color="primary"
           aria-label="upload picture"
@@ -59,7 +56,7 @@ export default function UploadButtons() {
           className={classes.button}
           startIcon={<PhotoCamera />}
         >
-          Upload
+          Avatar
         </Button>
       </label>
     </div>

@@ -41,18 +41,18 @@ export default function SearchField() {
       const response = await API.graphql(
         graphqlOperation(listUsers, { input: name })
       );
-      console.log(response);
       await sleep(1e3); // For demo purposes.
-      const people = await response.data.listUsers.items;
-
+      let people = await response.data.listUsers.items;
+      people = people.filter((friend) => friend.name !== user.name);
       if (active) {
-        setOptions(people.map((user) => user.name));
+        setOptions(people.map((human) => human.name));
       }
     })();
 
     return () => {
       active = false;
     };
+    // eslint-disable-next-line
   }, [loading]);
 
   React.useEffect(() => {
@@ -61,12 +61,11 @@ export default function SearchField() {
     }
   }, [open]);
   const getProfile = (e, value) => {
-    console.log(e.target.value, value);
     if (!e || !value) {
       console.log('none');
     } else {
       const isFriend = user.friends.items.filter(
-        (friend) => (friend.name = value)
+        (friend) => friend.name === value
       ).length;
       if (isFriend !== 0) {
         getSingleProfile(value);

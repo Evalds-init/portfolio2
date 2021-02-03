@@ -8,6 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarMenu from './AvatarMenu';
 import { UserContext } from '../../context/user/UserState';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,12 +19,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserAvatar() {
+  let history = useHistory();
   const classes = useStyles();
   const userContext = useContext(UserContext);
-  const { user } = userContext;
-  useEffect(() => {
-
-  }, [user]);
+  const { user, check } = userContext;
+  useEffect(() => {}, [check]);
+  const getUserProfile = () => {
+    history.push('/myprofile');
+  };
 
   return (
     <List dense className={classes.root}>
@@ -31,15 +34,19 @@ export default function UserAvatar() {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <ListItem key={value} button>
-            <ListItemAvatar>
+            <ListItemAvatar onClick={getUserProfile}>
               <Avatar
                 alt={`https://www.allianceplast.com/wp-content/uploads/2017/11/no-image.png`}
-                src={user?.image}
+                src={user.avatar}
               />
             </ListItemAvatar>
-            <ListItemText id={labelId} primary={user?.name} />
+            <ListItemText
+              id={labelId}
+              primary={user?.name.toUpperCase()}
+       
+            />
             <ListItemSecondaryAction>
-              <AvatarMenu  />
+              <AvatarMenu />
             </ListItemSecondaryAction>
           </ListItem>
         );

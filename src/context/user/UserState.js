@@ -3,7 +3,7 @@ import userReducer from './userReducer';
 import { API, graphqlOperation } from 'aws-amplify';
 import { createUser, updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
-import { GET_AUTH_USER, USER_ERROR, UPDATE_USER } from '../types';
+import { GET_AUTH_USER, USER_ERROR, USER_SUBSCRIPTION } from '../types';
 
 export const UserContext = createContext();
 const { Provider } = UserContext;
@@ -14,6 +14,7 @@ const UserState = ({ children }) => {
     loading: true,
     error: null,
     user: null,
+    check: false,
   };
 
   // set up the useReducer hook
@@ -49,14 +50,9 @@ const UserState = ({ children }) => {
       });
     }
   };
-  const updateCurrentUser = async (data) => {
-    const userData = { input: data };
+  const updateCurrentUser = async (input) => {
     try {
-      const user = await API.graphql(graphqlOperation(updateUser, userData));
-      dispatch({
-        type: UPDATE_USER,
-        payload: user.data.updateUser,
-      });
+      await API.graphql(graphqlOperation(updateUser, { input }));
     } catch (error) {
       dispatch({
         type: USER_ERROR,
@@ -64,14 +60,24 @@ const UserState = ({ children }) => {
       });
     }
   };
+  const userSubscription = (user) => {
+    console.log('updated');
+    dispatch({
+      type: USER_SUBSCRIPTION,
+      payload: user,
+    });
+  };
+
   return (
     <Provider
       value={{
         loading: state.loading,
+        check: state.check,
         user: state.user,
         error: state.error,
         getAuthUser,
         updateCurrentUser,
+        userSubscription,
       }}
     >
       {children}

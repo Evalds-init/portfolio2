@@ -2,12 +2,11 @@ import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { graphqlOperation, API } from 'aws-amplify';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
-import { createChannel } from '../../graphql/mutations';
 import { AlertContext } from '../../context/alert/AlertState';
 import { ChannelContext } from '../../context/channels/ChannelState';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -30,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateChannel({ setDisplayItem = (f) => f }) {
+export default function CreateGroup({ setDisplayItem = (f) => f }) {
+  const history = useHistory();
   const alertContext = useContext(AlertContext);
   const channelContext = useContext(ChannelContext);
   const { setAlert } = alertContext;
@@ -55,6 +55,7 @@ export default function CreateChannel({ setDisplayItem = (f) => f }) {
       createNewGroup(input);
       setAlert('Group was successfully created', 'success');
       setForm({ name: '', description: '' });
+      history.push('/');
     }
   };
   const onChange = (e) => {

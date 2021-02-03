@@ -4,28 +4,30 @@
 export const USER_ERROR = 'USER_ERROR';
 export const CLEAR_USER_ERROR = 'CLEAR_USER_ERROR';
 export const GET_AUTH_USER = 'GET_AUTH_USER';
-export const UPDATE_USER = 'UPDATE_USER';
+
+export const USER_SUBSCRIPTION = 'USER_SUBSCRIPTION';
 //////////////////////////////////////////////////////////////////////////////////
-//Channels
+//Groups
 /////////////////////////////////////////////////////////////////////////////////
-export const GET_CHANNELS = 'GET_CHANNELS';
+export const GET_GROUPS = 'GET_GROUPS';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
-export const CLEAR_FRIEND_CHANNEL = 'CLEAR_FRIEND_CHANNEL';
-export const GET_CHANNEL = 'GET_CHANNEL';
-export const CHANNEL_ERROR = 'CHANNEL_ERROR';
-export const POST_CHANNEL_MESSAGE = 'POST_CHANNEL_MESSAGE';
-export const PUSH_TO_CHANNEL = 'PUSH_TO_CHANNEL';
-export const PUSH_TO_FRIEND_CHANNEL = 'PUSH_TO_FRIEND_CHANNEL';
-export const CLEAR_CHANNEL = 'CLEAR_CHANNEL';
-export const CREATE_CHANNEL = 'CREATE_CHANNEL';
+export const GET_GROUP = 'GET_GROUP';
+export const GROUP_ERROR = 'GROUP_ERROR';
+export const PUSH_TO_GROUP = 'PUSH_TO_GROUP';
+export const CLEAR_GROUP = 'CLEAR_GROUP';
+export const CREATE_GROUP = 'CREATE_GROUP';
 export const GET_PROFILE = 'GET_PROFILE';
-export const ADD_FRIEND = 'ADD_FRIEND';
-export const ACCEPT_FRIEND_REQUEST = 'ACCEPT_FRIEND_REQUEST';
-export const GET_FRIEND_CHANNEL = 'GET_FRIEND_CHANNEL';
 //////////////////////////////////////////////////////////////////////////////////
 //Friends
 /////////////////////////////////////////////////////////////////////////////////
 export const FRIEND_ERROR = 'FRIEND_ERROR';
+export const CLEAR_FRIEND_CHANNEL = 'CLEAR_FRIEND_CHANNEL';
+export const PUSH_TO_FRIEND_CHANNEL = 'PUSH_TO_FRIEND_CHANNEL';
+export const ACCEPT_FRIEND_REQUEST = 'ACCEPT_FRIEND_REQUEST';
+export const GET_FRIEND_CHANNEL = 'GET_FRIEND_CHANNEL';
+export const ADD_FRIEND = 'ADD_FRIEND';
+export const GET_FRIENDS = 'GET_FRIENDS';
+export const SUBSCRIBE_TO_FRIEND_CHANGES = 'SUBSCRIBE_TO_FRIEND_CHANGES';
 //////////////////////////////////////////////////////////////////////////////////
 //Alerts
 /////////////////////////////////////////////////////////////////////////////////

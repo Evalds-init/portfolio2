@@ -7,6 +7,7 @@ type User @model @searchable @key(fields: ["name"]) {
   aboutMe: String
   groups: [UserGroup] @connection(keyName: "byMember", fields: ["name"])
   image: String
+  userAvatar: String
   friends: [Friend]
     @connection(name: "UserFriends", sortField: "name", limit: 20)
   messages: [Message] @connection(name: "UserMessages", limit: 10)
@@ -44,6 +45,7 @@ type Group @model {
     @connection(name: "GroupGroupMessages", sortField: "createdAt", limit: 10)
   createdAt: AWSDateTime
   media: String
+  avatar: String
 }
 type Friend @model {
   id: ID!

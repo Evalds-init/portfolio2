@@ -36,6 +36,7 @@ export default function EditProfileForm({ user }) {
   const { updateCurrentUser, error } = userContext;
   useEffect(() => {
     error !== null && setAlert('Something went wrong', 'error');
+    // eslint-disable-next-line
   }, [error]);
 
   const [userForm, setForm] = useState({
@@ -49,7 +50,6 @@ export default function EditProfileForm({ user }) {
   });
 
   const {
-    id,
     name,
     address_line1,
     address_line2,
@@ -74,7 +74,7 @@ export default function EditProfileForm({ user }) {
       // },
     };
     updateCurrentUser(input);
-    history.push('/');
+    history.push('/myprofile');
   };
   const onChange = (e) => {
     setForm({ ...userForm, [e.target.name]: e.target.value });
@@ -88,7 +88,7 @@ export default function EditProfileForm({ user }) {
             label={!name && 'Username'}
             id="outlined-margin-none"
             name="name"
-            value={name}
+            value={name.toUpperCase()}
             disabled
             onChange={onChange}
             className={classes.textField}

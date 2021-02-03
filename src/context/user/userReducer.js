@@ -1,5 +1,9 @@
-import { GET_AUTH_USER, USER_ERROR,UPDATE_USER } from '../types';
-
+import {
+  GET_AUTH_USER,
+  USER_ERROR,
+  USER_SUBSCRIPTION,
+} from '../types';
+// eslint-disable-next-line
 export default (state, action) => {
   const { payload } = action;
   switch (action.type) {
@@ -7,8 +11,8 @@ export default (state, action) => {
       return { ...state, user: payload, loading: false };
     case USER_ERROR:
       return { ...state, error: payload };
-    case UPDATE_USER:
-      return { ...state, user: payload };
+    case USER_SUBSCRIPTION:
+      return { ...state, user: payload, check: !state.check };
     default:
       return state;
   }

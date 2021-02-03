@@ -1,29 +1,17 @@
 import React, { createContext, useReducer } from 'react';
-import channelReducer from './channelReducer';
+import channelReducer from './groupReducer';
 import { API, graphqlOperation } from 'aws-amplify';
+import { createGroupMessage, createGroup } from '../../graphql/mutations';
+import { getGroup, getUser, listGroups } from '../../graphql/queries';
 import {
-  createMessage,
-  createChannel,
-  createGroup,
-} from '../../graphql/mutations';
-import {
-  listChannels,
-  getChannel,
-  getUser,
-  listGroups,
-} from '../../graphql/queries';
-import {
-  GET_CHANNELS,
-  CHANNEL_ERROR,
-  GET_CHANNEL,
-  PUSH_TO_CHANNEL,
-  CLEAR_CHANNEL,
-  CREATE_CHANNEL,
+  GET_GROUPS,
+  GROUP_ERROR,
+  GET_GROUP,
+  PUSH_TO_GROUP,
+  CLEAR_GROUP,
+  CREATE_GROUP,
   GET_PROFILE,
-  GET_FRIEND_CHANNEL,
-  PUSH_TO_FRIEND_CHANNEL,
   CLEAR_PROFILE,
-  CLEAR_FRIEND_CHANNEL,
 } from '../types';
 
 export const ChannelContext = createContext();
@@ -32,10 +20,8 @@ const { Provider } = ChannelContext;
 const ChannelState = ({ children }) => {
   // set up initial state
   const initialState = {
-    channels: [],
-    channel: null,
-    friendChannel: null,
-    loadingFriendChannel: true,
+    groups: [],
+    group: null,
     channelError: null,
     profile: null,
     loadingProfile: true,
@@ -44,17 +30,17 @@ const ChannelState = ({ children }) => {
   // set up the useReducer hook
   const [state, dispatch] = useReducer(channelReducer, initialState);
 
-  const getChannels = async () => {
+  const getAllGroups = async () => {
     try {
       const result = await API.graphql(graphqlOperation(listGroups));
       dispatch({
-        type: GET_CHANNELS,
+        type: GET_GROUPS,
         payload: result.data.listGroups.items,
       });
     } catch (err) {
       console.log(err);
       dispatch({
-        type: CHANNEL_ERROR,
+        type: GROUP_ERROR,
         payload: err.message,
       });
     }
@@ -65,95 +51,70 @@ const ChannelState = ({ children }) => {
         graphqlOperation(createGroup, { input })
       );
       dispatch({
-        type: CREATE_CHANNEL,
+        type: CREATE_GROUP,
         payload: result.data.createGroup,
       });
     } catch (err) {
       dispatch({
-        type: CHANNEL_ERROR,
+        type: GROUP_ERROR,
         payload: err.message,
       });
     }
   };
-  const postChannelMessage = async (input) => {
+  const postGroupMessage = async (input) => {
     try {
-      const result = await API.graphql(
-        graphqlOperation(createMessage, { input })
-      );
+      await API.graphql(graphqlOperation(createGroupMessage, { input }));
     } catch (err) {
       console.log(err);
       dispatch({
-        type: CHANNEL_ERROR,
+        type: GROUP_ERROR,
         payload: err.message,
       });
     }
   };
 
-  const pushToChannel = (message) => {
+  const pushToGroupChat = (message) => {
     dispatch({
-      type: PUSH_TO_CHANNEL,
+      type: PUSH_TO_GROUP,
       payload: message,
     });
   };
-  const clearChannel = () => {
+  const clearGroup = () => {
     dispatch({
-      type: CLEAR_CHANNEL,
-    });
-  };
-  const pushToFriendChannel = (message) => {
-    dispatch({
-      type: PUSH_TO_FRIEND_CHANNEL,
-      payload: message,
+      type: CLEAR_GROUP,
     });
   };
 
-  const getSingleChannel = async (id) => {
+  const getSingleGroup = async (id) => {
     try {
       const input = { id: id };
-      const result = await API.graphql(graphqlOperation(getChannel, input));
+      const result = await API.graphql(graphqlOperation(getGroup, input));
       console.log(result);
       dispatch({
-        type: GET_CHANNEL,
-        payload: result.data.getChannel,
+        type: GET_GROUP,
+        payload: result.data.getGroup,
       });
     } catch (err) {
       console.log(err);
       dispatch({
-        type: CHANNEL_ERROR,
+        type: GROUP_ERROR,
         payload: err.message,
       });
     }
   };
-  const getFriendChannel = async (id) => {
-    try {
-      const input = { id: id };
-      const result = await API.graphql(graphqlOperation(getChannel, input));
-      console.log(result);
-      dispatch({
-        type: GET_FRIEND_CHANNEL,
-        payload: result.data.getChannel,
-      });
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: CHANNEL_ERROR,
-        payload: err.message,
-      });
-    }
-  };
+
   const getSingleProfile = async (name) => {
     try {
       const input = { name: name };
       const result = await API.graphql(graphqlOperation(getUser, input));
-      console.log(result);
+
       dispatch({
         type: GET_PROFILE,
         payload: result.data.getUser,
       });
     } catch (err) {
-      console.log(err);
       dispatch({
-        type: CHANNEL_ERROR,
+        type: GROUP_ERROR,
         payload: err.message,
       });
     }
@@ -163,33 +124,24 @@ const ChannelState = ({ children }) => {
       type: CLEAR_PROFILE,
     });
   };
-  const clearFriendChannel = () => {
-    dispatch({
-      type: CLEAR_FRIEND_CHANNEL,
-    });
-  };
 
   return (
     <Provider
       value={{
-        channels: state.channels,
-        channel: state.channel,
+        groups: state.groups,
+        group: state.group,
         profile: state.profile,
         loadingProfile: state.loadingProfile,
-        friendChannel: state.friendChannel,
         channelError: state.channelError,
-        loadingFriendChannel: state.loadingFriendChannel,
-        getFriendChannel,
-        getChannels,
+        getAllGroups,
         getSingleProfile,
-        getSingleChannel,
-        postChannelMessage,
-        pushToChannel,
+        getSingleGroup,
+        postGroupMessage,
+        pushToGroupChat,
         clearProfile,
-        clearChannel,
+        clearGroup,
         createNewGroup,
-        pushToFriendChannel,
-        clearFriendChannel,
+
       }}
     >
       {children}

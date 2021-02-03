@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 import FaceIcon from '@material-ui/icons/Face';
 import GroupsIcon from '@material-ui/icons/Group';
 import { Auth } from 'aws-amplify';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -21,15 +20,16 @@ export default function BarMenu({
   const classes = useStyles();
   const setGroup = () => {
     setSidenavItem('group');
-    setMobileOpen();
+    if (window.screen.width <= 660) {
+      setMobileOpen();
+    }
   };
-  const setUser = () => {
-    setSidenavItem('user');
-    setMobileOpen();
-  };
+
   const setFriend = () => {
     setSidenavItem('friend');
-    setMobileOpen();
+    if (window.screen.width <= 660) {
+      setMobileOpen();
+    }
   };
   async function signOut() {
     try {
@@ -40,11 +40,7 @@ export default function BarMenu({
   }
   return (
     <div className={classes.grow}>
-      <IconButton
-        aria-label="show  new notifications"
-        color="inherit"
-        onClick={setFriend}
-      >
+      <IconButton aria-label="show  new notifications" onClick={setFriend}>
         <FaceIcon
           edge="end"
           aria-label="account of current user"
@@ -60,20 +56,11 @@ export default function BarMenu({
           color="inherit"
         />
       </IconButton>
-      <IconButton
-        edge="end"
-        aria-label="account of current user"
-        aria-haspopup="true"
-        color="inherit"
-        onClick={setUser}
-      >
-        <AccountCircle />
-      </IconButton>
+
       <IconButton
         edge="end"
         aria-label="exit app"
         aria-haspopup="true"
-        color="inherit"
         onClick={signOut}
       >
         <ExitToAppIcon />
