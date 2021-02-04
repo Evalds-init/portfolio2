@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList } from 'react-window';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import IconButton from '@material-ui/core/IconButton';
 
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -69,8 +69,8 @@ renderRow.propTypes = {
 export default function GroupList() {
   const classes = useStyles();
   let history = useHistory();
-  const channelContext = useContext(ChannelContext);
-  const { groups, getSingleGroup } = channelContext;
+  const groupContext = useContext(GroupContext);
+  const { groups, getSingleGroup } = groupContext;
   const length = groups.length;
   return (
     <div className={classes.root}>

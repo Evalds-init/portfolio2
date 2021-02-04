@@ -16,7 +16,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import WavesIcon from '@material-ui/icons/Waves';
 import UserAvatar from '../user/UserAvatar';
 import { UserContext } from '../../context/user/UserState';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { FriendContext } from '../../context/friends/FriendState';
 import ChannelHeader from '../group/GroupHeader';
 import FriendFrame from '../friend/FriendFrame';
@@ -27,7 +27,7 @@ import MyProfile from '../profile/MyProfile';
 import FriendRequest from '../profile/FriendRequest';
 import FriendProfile from '../profile/FriendProfile';
 import FriendChat from '../chat/friend/FriendChat';
-import ChannelInfo from '../group/GroupInfo';
+import GroupCardBody from '../group/groupCard/GroupCardBody';
 import EditProfileForm from '../user/EditProfileForm';
 import BarMenu from './BarMenu';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
@@ -88,9 +88,9 @@ function Sidenav({ ...props }) {
   );
   // check if the user is authorized
   const userContext = useContext(UserContext);
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
   const friendContext = useContext(FriendContext);
-  const { group, friendChannel } = channelContext;
+  const { group, friendChannel } = groupContext;
   const { fetchFriends, addFriendSubsciption } = friendContext;
   const { user, userSubscription } = userContext;
   const [sidenavItem, setSidenavItem] = useState('friend');
@@ -109,6 +109,7 @@ function Sidenav({ ...props }) {
   }, []);
   useEffect(() => {
     var subscribe = subscribeToAddFriend();
+    console.log('subscibed');
     return () => {
       subscribe.unsubscribe();
     };
@@ -126,9 +127,9 @@ function Sidenav({ ...props }) {
     ).subscribe({
       next: (noteData) => {
         if (noteData.value.data.onUserMutation) {
-          var user = noteData.value.data.onUserMutation;
+          const data = noteData.value.data.onUserMutation;
+          userSubscription(data);
         }
-        userSubscription(user);
       },
     });
     return subscribe;
@@ -143,6 +144,7 @@ function Sidenav({ ...props }) {
       next: (noteData) => {
         if (noteData.value.data.onFriendMutation) {
           addFriendSubsciption(noteData.value.data.onFriendMutation);
+          console.log(noteData.value.data.onFriendMutation);
         }
       },
     });
@@ -269,7 +271,7 @@ function Sidenav({ ...props }) {
             <Route path="/myprofile" render={() => <MyProfile />} />
             <Route path="/channelchat" render={() => <ChannelChat />} />
             <Route path="/createchannel" render={() => <CreateChannel />} />
-            <Route path="/channelinfo" render={() => <ChannelInfo />} />
+            <Route path="/channelinfo" render={() => <GroupCardBody />} />
             <Route
               path="/editprofileform"
               render={() => <EditProfileForm user={user} />}

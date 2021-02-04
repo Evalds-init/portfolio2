@@ -6,6 +6,8 @@ type User @model @searchable @key(fields: ["name"]) {
   phone: String
   aboutMe: String
   groups: [UserGroup] @connection(keyName: "byMember", fields: ["name"])
+  ownedGroups: [Group]
+    @connection(name: "UserGroups", sortField: "name", limit: 20)
   image: String
   userAvatar: String
   friends: [Friend]
@@ -14,10 +16,7 @@ type User @model @searchable @key(fields: ["name"]) {
   groupMessages: [GroupMessage]
     @connection(name: "UserGroupMessages", limit: 10)
 }
-type UserGroup
-  @model(queries: null)
-  @key(name: "byGroup", fields: ["groupID", "memberID"])
-  @key(name: "byMember", fields: ["memberID", "groupID"]) {
+type UserGroup @model(queries: null) @key(name: "byGroup", fields: ["groupID", "memberID"]) @key(name: "byMember", fields: ["memberID", "groupID"]) {
   id: ID!
   groupID: ID!
   memberID: String!
@@ -38,6 +37,7 @@ type GroupMessage @model(subscriptions: null) {
 }
 type Group @model {
   id: ID!
+  groupOwner: User! @connection(name: "UserGroups", limit: 20)
   name: String
   description: String
   members: [UserGroup] @connection(keyName: "byGroup", fields: ["id"])

@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
-import { ChannelContext } from '../../../context/channels/ChannelState';
+import { GroupContext } from '../../../context/group/GroupState';
 import { UserContext } from '../../../context/user/UserState';
 import SendIcon from '@material-ui/icons/Send';
 function GroupChatInput() {
   const [text, setText] = useState('');
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
   const userContext = useContext(UserContext);
-  const { postGroupMessage, group } = channelContext;
+  const { postGroupMessage, group } = groupContext;
   const { user } = userContext;
 
   const postMessage = () => {

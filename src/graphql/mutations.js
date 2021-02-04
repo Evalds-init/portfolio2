@@ -23,8 +23,20 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -93,8 +105,20 @@ export const updateUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -163,8 +187,20 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -222,6 +258,18 @@ export const createUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -245,8 +293,11 @@ export const createUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -275,6 +326,18 @@ export const updateUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -298,8 +361,11 @@ export const updateUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -328,6 +394,18 @@ export const deleteUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -351,8 +429,11 @@ export const deleteUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -388,8 +469,11 @@ export const createGroupMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -406,6 +490,18 @@ export const createGroupMessage = /* GraphQL */ `
       avatar
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -444,8 +540,11 @@ export const updateGroupMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -462,6 +561,18 @@ export const updateGroupMessage = /* GraphQL */ `
       avatar
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -500,8 +611,11 @@ export const deleteGroupMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -518,6 +632,18 @@ export const deleteGroupMessage = /* GraphQL */ `
       avatar
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -545,6 +671,33 @@ export const createGroup = /* GraphQL */ `
   ) {
     createGroup(input: $input, condition: $condition) {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -584,6 +737,33 @@ export const updateGroup = /* GraphQL */ `
   ) {
     updateGroup(input: $input, condition: $condition) {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -623,6 +803,33 @@ export const deleteGroup = /* GraphQL */ `
   ) {
     deleteGroup(input: $input, condition: $condition) {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -675,8 +882,11 @@ export const createFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -732,8 +942,11 @@ export const updateFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -789,8 +1002,11 @@ export const deleteFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -844,8 +1060,11 @@ export const createMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -899,8 +1118,11 @@ export const updateMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -954,8 +1176,11 @@ export const deleteMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }

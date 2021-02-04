@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listUsers } from '../../graphql/queries';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { UserContext } from '../../context/user/UserState';
 import { useHistory } from 'react-router-dom';
 function sleep(delay = 0) {
@@ -17,8 +17,8 @@ export default function SearchField() {
   const userContext = useContext(UserContext);
   let history = useHistory();
   const { user } = userContext;
-  const channelContext = useContext(ChannelContext);
-  const { getSingleProfile } = channelContext;
+  const groupContext = useContext(GroupContext);
+  const { getSingleProfile } = groupContext;
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [name, setName] = React.useState(null);
@@ -65,7 +65,8 @@ export default function SearchField() {
       console.log('none');
     } else {
       const isFriend = user.friends.items.filter(
-        (friend) => friend.name === value
+        (friend) =>
+          friend.name === value && friend.request !== 'invitationRejected'
       ).length;
       if (isFriend !== 0) {
         getSingleProfile(value);

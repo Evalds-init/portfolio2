@@ -10,8 +10,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { ChannelContext } from '../../../context/channels/ChannelState';
-import ChannelInput from './GroupChatInput';
+import { GroupContext } from '../../../context/group/GroupState';
+import GroupChatInput from './GroupChatInput';
 import { API, graphqlOperation } from 'aws-amplify';
 import { onCreateGroupMessage } from '../../../graphql/subscriptions';
 
@@ -40,9 +40,9 @@ const useStyles = makeStyles({
 
 const GroupChat = ({ setDisplayItem = (f) => f }) => {
   const classes = useStyles();
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
 
-  const { group, pushToGroupChat, clearGroup } = channelContext;
+  const { group, pushToGroupChat, clearGroup } = groupContext;
 
   useEffect(() => {
     if (group) {
@@ -140,7 +140,7 @@ const GroupChat = ({ setDisplayItem = (f) => f }) => {
             )}
           </List>
           <Divider />
-          <ChannelInput />
+          <GroupChatInput />
         </Grid>
       </Grid>
     </div>

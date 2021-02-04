@@ -11,7 +11,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import HourglassIcon from '@material-ui/icons/HourglassFullTwoTone';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import IconButton from '@material-ui/core/IconButton';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { FriendContext } from '../../context/friends/FriendState';
 import { UserContext } from '../../context/user/UserState';
 import { Link, useHistory } from 'react-router-dom';
@@ -101,10 +101,10 @@ renderRow.propTypes = {
 export default function FriendList() {
   const classes = useStyles();
   let history = useHistory();
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
   const friendContext = useContext(FriendContext);
   const userContext = useContext(UserContext);
-  const { getSingleProfile  } = channelContext;
+  const { getSingleProfile  } = groupContext;
   const { friends, getFriendChannel } = friendContext;
   const { user } = userContext;
   const length = friends?.length || 0;

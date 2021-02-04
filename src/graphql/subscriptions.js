@@ -16,8 +16,11 @@ export const onCreateMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -68,8 +71,11 @@ export const onCreateGroupMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -86,6 +92,18 @@ export const onCreateGroupMessage = /* GraphQL */ `
       avatar
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -125,8 +143,20 @@ export const onUserMutation = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -190,8 +220,11 @@ export const onFriendMutation = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -246,8 +279,20 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -313,8 +358,20 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -380,8 +437,20 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -436,6 +505,18 @@ export const onCreateUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -459,8 +540,11 @@ export const onCreateUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -486,6 +570,18 @@ export const onUpdateUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -509,8 +605,11 @@ export const onUpdateUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -536,6 +635,18 @@ export const onDeleteUserGroup = /* GraphQL */ `
       memberID
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -559,8 +670,11 @@ export const onDeleteUserGroup = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -582,6 +696,33 @@ export const onCreateGroup = /* GraphQL */ `
   subscription OnCreateGroup {
     onCreateGroup {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -618,6 +759,33 @@ export const onUpdateGroup = /* GraphQL */ `
   subscription OnUpdateGroup {
     onUpdateGroup {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -654,6 +822,33 @@ export const onDeleteGroup = /* GraphQL */ `
   subscription OnDeleteGroup {
     onDeleteGroup {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -703,8 +898,11 @@ export const onCreateFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -757,8 +955,11 @@ export const onUpdateFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -811,8 +1012,11 @@ export const onDeleteFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }

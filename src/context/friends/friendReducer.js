@@ -15,7 +15,16 @@ export default (state, action) => {
     case GET_FRIENDS:
       return { ...state, friends: payload };
     case SUBSCRIBE_TO_FRIEND_CHANGES:
-      return { ...state, friends: state.friends.map(friend=> friend.name === payload.name && payload) };
+      return {
+        ...state,
+        friends:
+          payload.request === 'invitationRejected' ||
+          payload.request === 'requestRejected'
+            ? state.friends.filter((friend) => friend.name !== payload.name)
+            : payload.request === 'sent' || payload.request === 'pending'
+            ? [...state.friends, payload]
+            : [...state.friends],
+      };
     case GET_FRIEND_CHANNEL:
       return {
         ...state,

@@ -4,12 +4,12 @@
 export const USER_ERROR = 'USER_ERROR';
 export const CLEAR_USER_ERROR = 'CLEAR_USER_ERROR';
 export const GET_AUTH_USER = 'GET_AUTH_USER';
-
 export const USER_SUBSCRIPTION = 'USER_SUBSCRIPTION';
 //////////////////////////////////////////////////////////////////////////////////
 //Groups
 /////////////////////////////////////////////////////////////////////////////////
 export const GET_GROUPS = 'GET_GROUPS';
+export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const GET_GROUP = 'GET_GROUP';
 export const GROUP_ERROR = 'GROUP_ERROR';
@@ -17,6 +17,7 @@ export const PUSH_TO_GROUP = 'PUSH_TO_GROUP';
 export const CLEAR_GROUP = 'CLEAR_GROUP';
 export const CREATE_GROUP = 'CREATE_GROUP';
 export const GET_PROFILE = 'GET_PROFILE';
+export const GET_GROUP_MEMBERS = 'GET_GROUP_MEMBERS';
 //////////////////////////////////////////////////////////////////////////////////
 //Friends
 /////////////////////////////////////////////////////////////////////////////////

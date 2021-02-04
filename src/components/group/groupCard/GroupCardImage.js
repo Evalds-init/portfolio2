@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FloatingUploadButton from '../../../utils/FloatingUploadButton';
-import { ChannelContext } from '../../../context/group/ChannelState';
+import { GroupContext } from '../../../context/group/GroupState';
 import { Storage } from 'aws-amplify';
 import CardMedia from '@material-ui/core/CardMedia';
 import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
@@ -20,9 +20,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const CardWallpaper = React.memo(function EngagementCard() {
-  const channelContext = useContext(ChannelContext);
-  const { group } = channelContext;
+export const GroupCardImage = React.memo(function EngagementCard() {
+  const groupContext = useContext(GroupContext);
+  const { group, updateSingleGroup } = groupContext;
   const cardStyles = useStyles();
   const wideCardMediaStyles = useWideCardMediaStyles();
   const uploadGroupWallpaper = (e) => {
@@ -38,14 +38,14 @@ export const CardWallpaper = React.memo(function EngagementCard() {
       Storage.put(`group${number}${group.name}.jpg`, file, {
         contentType: 'image/png',
       })
-        .then((result) => updateCurrentUser(input))
+        .then((result) => updateSingleGroup(input))
         .catch((err) => console.log(err));
     }
   };
 
   return (
     <>
-      <CardMedia classes={wideCardMediaStyles} image={group?.image} />{' '}
+      <CardMedia classes={wideCardMediaStyles} image={group?.media} />{' '}
       <FloatingUploadButton
         style={cardStyles.floatLeft}
         uploadFunction={uploadGroupWallpaper}
@@ -55,4 +55,4 @@ export const CardWallpaper = React.memo(function EngagementCard() {
   );
 });
 
-export default CardWallpaper;
+export default GroupCardImage;

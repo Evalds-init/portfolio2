@@ -13,7 +13,7 @@ import TextInfoContent from '@mui-treasury/components/content/textInfo';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { UserContext } from '../../context/user/UserState';
 import { FriendContext } from '../../context/friends/FriendState';
 
@@ -41,10 +41,10 @@ function FriendRequest() {
   const mediaStyles = useSlopeCardMediaStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
   const friendContext = useContext(FriendContext);
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
   const userContext = useContext(UserContext);
   const { acceptFriend, rejectFriendRequest } = friendContext;
-  const { profile, loadingProfile, clearProfile } = channelContext;
+  const { profile, loadingProfile, clearProfile } = groupContext;
   const { user } = userContext;
   const acceptFriendRequest = () => {
     const friend = profile.name;

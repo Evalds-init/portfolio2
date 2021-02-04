@@ -79,7 +79,13 @@ const FriendState = ({ children }) => {
     }
   };
   const fetchFriends = async (data) => {
-    const friends = data.map((friend) => ({ name: { eq: friend.name } }));
+    const friends = data.reduce(function (result, friend) {
+      friend.request !== 'requestRejected' &&
+        friend.request !== 'invitationRejected' &&
+        result.push({ name: { eq: friend.name } });
+      return result;
+    }, []);
+    console.log(friends);
     const input = {
       or: friends,
     };

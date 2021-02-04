@@ -37,14 +37,10 @@ export default function UserAvatar() {
             <ListItemAvatar onClick={getUserProfile}>
               <Avatar
                 alt={`https://www.allianceplast.com/wp-content/uploads/2017/11/no-image.png`}
-                src={user.avatar}
+                src={user.userAvatar}
               />
             </ListItemAvatar>
-            <ListItemText
-              id={labelId}
-              primary={user?.name.toUpperCase()}
-       
-            />
+            <ListItemText id={labelId} primary={user?.name.toUpperCase()} />
             <ListItemSecondaryAction>
               <AvatarMenu />
             </ListItemSecondaryAction>

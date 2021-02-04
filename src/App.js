@@ -1,6 +1,6 @@
 import React from 'react';
 import UserState from './context/user/UserState';
-import ChannelState from './context/channels/ChannelState';
+import GroupState from './context/group/GroupState';
 import AlertState from './context/alert/AlertState';
 import FriendState from './context/friends/FriendState';
 import Auth from './components/auth/Auth';
@@ -10,11 +10,11 @@ function App() {
     <>
       <AlertState>
         <FriendState>
-          <ChannelState>
+          <GroupState>
             <UserState>
               <Auth />
             </UserState>
-          </ChannelState>
+          </GroupState>
         </FriendState>
       </AlertState>
     </>

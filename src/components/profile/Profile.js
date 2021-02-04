@@ -12,7 +12,7 @@ import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import { useSlopeCardMediaStyles } from '@mui-treasury/styles/cardMedia/slope';
 import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n01';
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { FriendContext } from '../../context/friends/FriendState';
 import { UserContext } from '../../context/user/UserState';
 const useStyles = makeStyles(() => ({
@@ -38,10 +38,10 @@ function Profile() {
   let history = useHistory();
   const mediaStyles = useSlopeCardMediaStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
   const friendContext = useContext(FriendContext);
   const userContext = useContext(UserContext);
-  const { profile, loadingProfile, clearProfile } = channelContext;
+  const { profile, loadingProfile, clearProfile } = groupContext;
   const { user } = userContext;
   const { addFriend } = friendContext;
   const onClick = () => {

@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
 import { AlertContext } from '../../context/alert/AlertState';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
+import { UserContext } from '../../context/user/UserState';
 import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,9 +33,11 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateGroup({ setDisplayItem = (f) => f }) {
   const history = useHistory();
   const alertContext = useContext(AlertContext);
-  const channelContext = useContext(ChannelContext);
+  const groupContext = useContext(GroupContext);
+  const userContext = useContext(UserContext);
   const { setAlert } = alertContext;
-  const { createNewGroup } = channelContext;
+  const { createNewGroup } = groupContext;
+  const { user } = userContext;
   const classes = useStyles();
   const [userForm, setForm] = useState({
     name: '',
@@ -47,6 +50,7 @@ export default function CreateGroup({ setDisplayItem = (f) => f }) {
     const input = {
       name,
       description,
+      groupGroupOwnerId: user.name,
     };
     if (name === '') {
       setAlert('Group name is required', 'error');

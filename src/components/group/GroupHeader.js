@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AddIcon from '@material-ui/icons/Add';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import { ChannelContext } from '../../context/channels/ChannelState';
+import { GroupContext } from '../../context/group/GroupState';
 import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GroupHeader() {
-  const channelContext = useContext(ChannelContext);
-  const { getAllGroups } = channelContext;
+  const groupContext = useContext(GroupContext);
+  const { getAllGroups } = groupContext;
 
   const classes = useStyles();
   useEffect(() => {

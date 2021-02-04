@@ -24,7 +24,7 @@ export default function UploadButtons() {
     const data = {
       id: user.id,
       name: user.name,
-      avatar: `https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/avatar${number}${user.name}.jpg`,
+      userAvatar: `https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/avatar${number}${user.name}.jpg`,
     };
 
     const file = e.target.files[0];

@@ -20,8 +20,20 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      ownedGroups {
+        items {
+          id
+          name
+          description
+          createdAt
+          media
+          avatar
+          updatedAt
+        }
+        nextToken
+      }
       image
-      avatar
+      userAvatar
       friends {
         items {
           id
@@ -93,8 +105,11 @@ export const listUsers = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -126,8 +141,11 @@ export const getGroupMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -144,6 +162,18 @@ export const getGroupMessage = /* GraphQL */ `
       avatar
       group {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -182,7 +212,7 @@ export const listGroupMessages = /* GraphQL */ `
           phone
           aboutMe
           image
-          avatar
+          userAvatar
           createdAt
           updatedAt
         }
@@ -210,6 +240,33 @@ export const getGroup = /* GraphQL */ `
   query GetGroup($id: ID!) {
     getGroup(id: $id) {
       id
+      groupOwner {
+        id
+        name
+        email
+        userId
+        phone
+        aboutMe
+        groups {
+          nextToken
+        }
+        ownedGroups {
+          nextToken
+        }
+        image
+        userAvatar
+        friends {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       name
       description
       members {
@@ -251,6 +308,18 @@ export const listGroups = /* GraphQL */ `
     listGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
         name
         description
         members {
@@ -285,8 +354,11 @@ export const getFriend = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -342,7 +414,7 @@ export const listFriends = /* GraphQL */ `
           phone
           aboutMe
           image
-          avatar
+          userAvatar
           createdAt
           updatedAt
         }
@@ -380,8 +452,11 @@ export const getMessage = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
@@ -435,7 +510,7 @@ export const listMessages = /* GraphQL */ `
           phone
           aboutMe
           image
-          avatar
+          userAvatar
           createdAt
           updatedAt
         }
@@ -548,8 +623,11 @@ export const searchUsers = /* GraphQL */ `
         groups {
           nextToken
         }
+        ownedGroups {
+          nextToken
+        }
         image
-        avatar
+        userAvatar
         friends {
           nextToken
         }
