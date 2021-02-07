@@ -51,6 +51,7 @@ export default function CreateGroup({ setDisplayItem = (f) => f }) {
       name,
       description,
       groupGroupOwnerId: user.name,
+      owner: user.name,
     };
     if (name === '') {
       setAlert('Group name is required', 'error');

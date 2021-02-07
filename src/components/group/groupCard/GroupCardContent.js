@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
@@ -8,7 +8,6 @@ import { useFadedShadowStyles } from '@mui-treasury/styles/shadow/faded';
 import { GroupContext } from '../../../context/group/GroupState';
 
 const useStyles = makeStyles(() => ({
-
   content: {
     padding: 24,
   },
@@ -20,6 +19,7 @@ export const GroupCardContent = React.memo(function EngagementCard() {
   const cardStyles = useStyles();
 
   const textCardContentStyles = useN01TextInfoContentStyles();
+  useEffect(() => {}, [group]);
   return (
     <CardContent className={cardStyles.content}>
       <TextInfoContent

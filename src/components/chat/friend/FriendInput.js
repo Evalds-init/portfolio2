@@ -17,7 +17,7 @@ function FriendInput() {
       text: text,
       messageChannelId: friendChannel.id,
       messageUserName: user.name,
-      avatar: user.image,
+      avatar: user.userAvatar,
     };
     postFriendMessage(input);
     setText('');

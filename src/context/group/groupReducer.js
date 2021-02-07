@@ -9,6 +9,8 @@ import {
   CLEAR_PROFILE,
   UPDATE_GROUP,
   GET_GROUP_MEMBERS,
+  GET_OWNED_GROUPS,
+  JOIN_GROUP,
 } from '../types';
 // eslint-disable-next-line
 export default (state, action) => {
@@ -30,10 +32,17 @@ export default (state, action) => {
         ...state,
         group: payload,
       };
+    case JOIN_GROUP:
+      return {
+        ...state,
+        groups: [...state.groups, payload],
+      };
     case CLEAR_GROUP:
       return { ...state, group: null, groupMembers: null };
     case CREATE_GROUP:
-      return { ...state, groups: [...state.groups, payload] };
+      return { ...state, ownedGroups: [...state.ownedGroups, payload] };
+    case GET_OWNED_GROUPS:
+      return { ...state, ownedGroups: payload };
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///// Group CHAT
@@ -43,9 +52,9 @@ export default (state, action) => {
         ...state,
         group: {
           ...state.group,
-          messages: {
-            ...state.group.messages,
-            items: [...state.group.messages.items, payload],
+          groupMessages: {
+            ...state.group.groupMessages,
+            items: [...state.group.groupMessages.items, payload],
           },
         },
       };

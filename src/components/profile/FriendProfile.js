@@ -57,7 +57,7 @@ function FriendProfile() {
   return (
     <Card className={cx(cardStyles.root)}>
       <CardMedia classes={mediaStyles} image={profile?.image} />
-      <Avatar className={cardStyles.avatar} src={profile?.avatar} />
+      <Avatar className={cardStyles.avatar} src={profile?.userAvatar} />
       <CardContent className={cardStyles.content}>
         <TextInfoContent
           classes={textCardContentStyles}

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList } from 'react-window';
-import { GroupContext } from '../../context/group/GroupState';
+import { GroupContext } from '../../../context/group/GroupState';
 import IconButton from '@material-ui/core/IconButton';
 
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 250,
     backgroundColor: theme.palette.background.paper,
   },
-
 }));
 
 function renderRow(props) {
@@ -28,12 +27,12 @@ function renderRow(props) {
   const { getSingleGroup, groups, history } = data;
 
   const enterChat = () => {
-    getSingleGroup(groups[index].id);
-    history.push('/channelchat');
+    getSingleGroup(groups[index]?.id);
+    history.push('/groupchat');
   };
   const viewChannel = () => {
-    getSingleGroup(groups[index].id);
-    history.push('/channelinfo');
+    getSingleGroup(groups[index]?.id);
+    history.push('/groupinfo');
   };
   return (
     <>
@@ -44,7 +43,7 @@ function renderRow(props) {
               <WorkIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={groups[index].name} />
+          <ListItemText primary={groups[index]?.name} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
@@ -72,6 +71,7 @@ export default function GroupList() {
   const groupContext = useContext(GroupContext);
   const { groups, getSingleGroup } = groupContext;
   const length = groups.length;
+  useEffect(() => {}, [groups]);
   return (
     <div className={classes.root}>
       <FixedSizeList

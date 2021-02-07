@@ -18,10 +18,10 @@ import UserAvatar from '../user/UserAvatar';
 import { UserContext } from '../../context/user/UserState';
 import { GroupContext } from '../../context/group/GroupState';
 import { FriendContext } from '../../context/friends/FriendState';
-import ChannelHeader from '../group/GroupHeader';
-import FriendFrame from '../friend/FriendFrame';
-import CreateChannel from '../group/CreateGroup';
-import ChannelChat from '../chat/group/GroupChat';
+import GroupHeader from '../group/GroupHeader';
+import FriendFrame from '../friend/FriendViewController';
+import CreateGroup from '../group/CreateGroup';
+import GroupChat from '../chat/group/GroupChat';
 import Profile from '../profile/Profile';
 import MyProfile from '../profile/MyProfile';
 import FriendRequest from '../profile/FriendRequest';
@@ -183,7 +183,7 @@ function Sidenav({ ...props }) {
         <Divider />
         <UserAvatar />
         <Divider />
-        <ChannelHeader />
+        <GroupHeader />
       </div>
     </>
   );
@@ -269,9 +269,9 @@ function Sidenav({ ...props }) {
             <Route path="/friendrequest" render={() => <FriendRequest />} />
             <Route path="/profile" render={() => <Profile />} />
             <Route path="/myprofile" render={() => <MyProfile />} />
-            <Route path="/channelchat" render={() => <ChannelChat />} />
-            <Route path="/createchannel" render={() => <CreateChannel />} />
-            <Route path="/channelinfo" render={() => <GroupCardBody />} />
+            <Route path="/groupchat" render={() => <GroupChat />} />
+            <Route path="/creategroup" render={() => <CreateGroup />} />
+            <Route path="/groupinfo" render={() => <GroupCardBody />} />
             <Route
               path="/editprofileform"
               render={() => <EditProfileForm user={user} />}

@@ -1,4 +1,4 @@
-type User @model @searchable @key(fields: ["name"]) {
+type User @model(subscriptions: null) @searchable @key(fields: ["name"]) {
   id: ID!
   name: String!
   email: String!
@@ -16,7 +16,10 @@ type User @model @searchable @key(fields: ["name"]) {
   groupMessages: [GroupMessage]
     @connection(name: "UserGroupMessages", limit: 10)
 }
-type UserGroup @model(queries: null) @key(name: "byGroup", fields: ["groupID", "memberID"]) @key(name: "byMember", fields: ["memberID", "groupID"]) {
+type UserGroup
+  @model(queries: null)
+  @key(name: "byGroup", fields: ["groupID", "memberID"])
+  @key(name: "byMember", fields: ["memberID", "groupID"]) {
   id: ID!
   groupID: ID!
   memberID: String!
@@ -29,25 +32,27 @@ type GroupMessage @model(subscriptions: null) {
   user: User @connection(name: "UserGroupMessages")
   media: String
   avatar: String
-  group: Group
-    @connection(name: "GroupGroupMessages", sortField: "createdAt", limit: 10)
-  groupMessageGroupId: String
+  group: Group @connection(name: "GroupGroupMessages")
   messageUserName: String
+  groupMessageGroupId: ID
   createdAt: AWSDateTime
 }
-type Group @model {
+type Group
+  @model(subscriptions: null)
+  @key(name: "byGroupName", fields: ["name"], queryField: "byGroupName") {
   id: ID!
   groupOwner: User! @connection(name: "UserGroups", limit: 20)
-  name: String
+  owner: String!
+  name: String!
   description: String
   members: [UserGroup] @connection(keyName: "byGroup", fields: ["id"])
-  messages: [GroupMessage]
+  groupMessages: [GroupMessage]
     @connection(name: "GroupGroupMessages", sortField: "createdAt", limit: 10)
   createdAt: AWSDateTime
   media: String
   avatar: String
 }
-type Friend @model {
+type Friend @model(subscriptions: null) {
   id: ID!
   name: String
   friendImage: String
@@ -74,7 +79,7 @@ type Message @model(subscriptions: null) {
   createdAt: AWSDateTime
 }
 
-type Channel @model {
+type Channel @model(subscriptions: null) {
   id: ID!
   name: String
   description: String
@@ -88,7 +93,7 @@ type Channel @model {
 type Subscription {
   onCreateMessage(messageChannelId: String): Message
     @aws_subscribe(mutations: ["createMessage"])
-  onCreateGroupMessage(groupMessageGroupId: String): GroupMessage
+  onCreateGroupMessage(groupMessageGroupId: ID): GroupMessage
     @aws_subscribe(mutations: ["createGroupMessage"])
   onUserMutation(name: String): User @aws_subscribe(mutations: ["updateUser"])
   onFriendMutation(friendFriendId: String): Friend

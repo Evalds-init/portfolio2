@@ -9,9 +9,11 @@ export const USER_SUBSCRIPTION = 'USER_SUBSCRIPTION';
 //Groups
 /////////////////////////////////////////////////////////////////////////////////
 export const GET_GROUPS = 'GET_GROUPS';
+export const GET_OWNED_GROUPS = 'GET_OWNED_GROUPS';
 export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const GET_GROUP = 'GET_GROUP';
+export const JOIN_GROUP = 'JOIN_GROUP';
 export const GROUP_ERROR = 'GROUP_ERROR';
 export const PUSH_TO_GROUP = 'PUSH_TO_GROUP';
 export const CLEAR_GROUP = 'CLEAR_GROUP';

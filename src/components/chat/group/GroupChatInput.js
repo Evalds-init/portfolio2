@@ -15,10 +15,10 @@ function GroupChatInput() {
   const postMessage = () => {
     const input = {
       text: text,
+      avatar: user.userAvatar,
       groupMessageGroupId: group.id,
       messageUserName: user.name,
       groupMessageUserId: user.name,
-      media: user.image,
     };
     postGroupMessage(input);
     setText('');

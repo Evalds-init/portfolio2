@@ -26,6 +26,7 @@ export const createUser = /* GraphQL */ `
       ownedGroups {
         items {
           id
+          owner
           name
           description
           createdAt
@@ -71,8 +72,8 @@ export const createUser = /* GraphQL */ `
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -108,6 +109,7 @@ export const updateUser = /* GraphQL */ `
       ownedGroups {
         items {
           id
+          owner
           name
           description
           createdAt
@@ -153,8 +155,8 @@ export const updateUser = /* GraphQL */ `
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -190,6 +192,7 @@ export const deleteUser = /* GraphQL */ `
       ownedGroups {
         items {
           id
+          owner
           name
           description
           createdAt
@@ -235,8 +238,8 @@ export const deleteUser = /* GraphQL */ `
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -270,12 +273,13 @@ export const createUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -338,12 +342,13 @@ export const updateUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -406,12 +411,13 @@ export const deleteUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -502,12 +508,13 @@ export const createGroupMessage = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -515,8 +522,8 @@ export const createGroupMessage = /* GraphQL */ `
         avatar
         updatedAt
       }
-      groupMessageGroupId
       messageUserName
+      groupMessageGroupId
       createdAt
       updatedAt
     }
@@ -573,12 +580,13 @@ export const updateGroupMessage = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -586,8 +594,8 @@ export const updateGroupMessage = /* GraphQL */ `
         avatar
         updatedAt
       }
-      groupMessageGroupId
       messageUserName
+      groupMessageGroupId
       createdAt
       updatedAt
     }
@@ -644,12 +652,13 @@ export const deleteGroupMessage = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -657,8 +666,8 @@ export const deleteGroupMessage = /* GraphQL */ `
         avatar
         updatedAt
       }
-      groupMessageGroupId
       messageUserName
+      groupMessageGroupId
       createdAt
       updatedAt
     }
@@ -698,6 +707,7 @@ export const createGroup = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      owner
       name
       description
       members {
@@ -710,14 +720,14 @@ export const createGroup = /* GraphQL */ `
         }
         nextToken
       }
-      messages {
+      groupMessages {
         items {
           id
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -764,6 +774,7 @@ export const updateGroup = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      owner
       name
       description
       members {
@@ -776,14 +787,14 @@ export const updateGroup = /* GraphQL */ `
         }
         nextToken
       }
-      messages {
+      groupMessages {
         items {
           id
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -830,6 +841,7 @@ export const deleteGroup = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      owner
       name
       description
       members {
@@ -842,14 +854,14 @@ export const deleteGroup = /* GraphQL */ `
         }
         nextToken
       }
-      messages {
+      groupMessages {
         items {
           id
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }

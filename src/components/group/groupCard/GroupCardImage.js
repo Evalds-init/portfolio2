@@ -20,7 +20,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const GroupCardImage = React.memo(function EngagementCard() {
+export const GroupCardImage = React.memo(function EngagementCard({
+  setIsOwner = (f) => f,
+  isOwner,
+}) {
   const groupContext = useContext(GroupContext);
   const { group, updateSingleGroup } = groupContext;
   const cardStyles = useStyles();
@@ -45,12 +48,21 @@ export const GroupCardImage = React.memo(function EngagementCard() {
 
   return (
     <>
-      <CardMedia classes={wideCardMediaStyles} image={group?.media} />{' '}
-      <FloatingUploadButton
-        style={cardStyles.floatLeft}
-        uploadFunction={uploadGroupWallpaper}
-        labelId={'update-group-wallpaper'}
-      />
+      <CardMedia
+        classes={wideCardMediaStyles}
+        image={
+          group?.media
+            ? group.media
+            : 'https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/white_wallpaper_5_4k_hd_white.jpg'
+        }
+      />{' '}
+      {isOwner === true && (
+        <FloatingUploadButton
+          style={cardStyles.floatLeft}
+          uploadFunction={uploadGroupWallpaper}
+          labelId={'update-group-wallpaper'}
+        />
+      )}
     </>
   );
 });

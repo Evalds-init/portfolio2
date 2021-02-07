@@ -21,11 +21,12 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
   },
 }));
-const GroupPeopleCard = () => {
+const GroupPeopleCard = ({ setIsMember = (f) => f, isMember, isOwner }) => {
   const groupContext = useContext(GroupContext);
   const userContext = useContext(UserContext);
   const alertContext = useContext(AlertContext);
   const peopleCardStyles = useStyles();
+
   const {
     group,
     updateSingleGroup,
@@ -40,7 +41,7 @@ const GroupPeopleCard = () => {
     description: '',
   });
   useEffect(() => {
-    group && getGroupMembers(group.members.items.slice(0, 5));
+    group?.members?.items && getGroupMembers(group.members.items.slice(0, 5));
   }, [group]);
 
   const { name, description } = setGroupForm;
@@ -66,9 +67,10 @@ const GroupPeopleCard = () => {
       groupID: group.id,
       memberID: user.name,
     };
+    setIsMember(true);
     joinGroup(input);
   };
-  useEffect(() => {}, [groupMembers]);
+
   return (
     <>
       <CardActions px={2} pb={3} mt={-1} className={peopleCardStyles.content}>
@@ -84,19 +86,11 @@ const GroupPeopleCard = () => {
           </AvatarGroup>
         </Box>
         <div className={peopleCardStyles.actions}>
-          {!user?.groups.items.some((e) => e.groupID === group?.id) ? (
+          {isMember === false && isOwner === false && (
             <IconButton onClick={handleJoinGroup}>
               <GroupAddIcon />
             </IconButton>
-          ) : (
-            !user?.ownedGroups.items.some((e) => e.id === group?.id) && (
-              <IconButton onClick={handleJoinGroup}>
-                <GroupAddIcon />
-              </IconButton>
-            )
           )}
-
-          <IconButton></IconButton>
         </div>
       </CardActions>
     </>

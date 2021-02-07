@@ -23,6 +23,11 @@ export default (state, action) => {
             ? state.friends.filter((friend) => friend.name !== payload.name)
             : payload.request === 'sent' || payload.request === 'pending'
             ? [...state.friends, payload]
+            : payload.request === 'invitationAccepted' ||
+              payload.request === 'requestAccepted'
+            ? state.friends.map((friend) =>
+                friend.name === payload.name ? payload : friend
+              )
             : [...state.friends],
       };
     case GET_FRIEND_CHANNEL:

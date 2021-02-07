@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -23,19 +23,34 @@ const useStyles = makeStyles(() => ({
 
 export const GroupCardBody = React.memo(function EngagementCard() {
   const groupContext = useContext(GroupContext);
-  const { group, clearGroup } = groupContext;
+  const { group, clearGroup, ownedGroups, groups } = groupContext;
   const cardStyles = useStyles();
   const fadeShadowStyles = useFadedShadowStyles();
+  const [isMember, setIsMember] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   useEffect(() => {
     return () => {
       clearGroup();
     };
   }, []);
+
+  useEffect(() => {
+    setIsOwner(false);
+    setIsMember(false);
+    const owner = ownedGroups.some((e) => e.id === group?.id);
+    owner === true && setIsOwner(true);
+    const member = groups.some((e) => e.id === group?.id);
+    member === true && setIsMember(true);
+  }, [group]);
   return (
     <Card className={cx(cardStyles.root, fadeShadowStyles.root)}>
-      <GroupCardImage />
+      <GroupCardImage isOwner={isOwner} setIsOwner={setIsOwner} />
       <GroupCardContent />
-      <GroupPeopleCard />
+      <GroupPeopleCard
+        setIsMember={setIsMember}
+        isMember={isMember}
+        isOwner={isOwner}
+      />
     </Card>
   );
 });

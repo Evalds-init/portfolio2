@@ -57,7 +57,7 @@ export const onCreateMessage = /* GraphQL */ `
   }
 `;
 export const onCreateGroupMessage = /* GraphQL */ `
-  subscription OnCreateGroupMessage($groupMessageGroupId: String) {
+  subscription OnCreateGroupMessage($groupMessageGroupId: ID) {
     onCreateGroupMessage(groupMessageGroupId: $groupMessageGroupId) {
       id
       text
@@ -104,12 +104,13 @@ export const onCreateGroupMessage = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -117,8 +118,8 @@ export const onCreateGroupMessage = /* GraphQL */ `
         avatar
         updatedAt
       }
-      groupMessageGroupId
       messageUserName
+      groupMessageGroupId
       createdAt
       updatedAt
     }
@@ -146,6 +147,7 @@ export const onUserMutation = /* GraphQL */ `
       ownedGroups {
         items {
           id
+          owner
           name
           description
           createdAt
@@ -191,8 +193,8 @@ export const onUserMutation = /* GraphQL */ `
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -260,243 +262,6 @@ export const onFriendMutation = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
-      id
-      name
-      email
-      userId
-      phone
-      aboutMe
-      groups {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      ownedGroups {
-        items {
-          id
-          name
-          description
-          createdAt
-          media
-          avatar
-          updatedAt
-        }
-        nextToken
-      }
-      image
-      userAvatar
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
-      id
-      name
-      email
-      userId
-      phone
-      aboutMe
-      groups {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      ownedGroups {
-        items {
-          id
-          name
-          description
-          createdAt
-          media
-          avatar
-          updatedAt
-        }
-        nextToken
-      }
-      image
-      userAvatar
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
-      id
-      name
-      email
-      userId
-      phone
-      aboutMe
-      groups {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      ownedGroups {
-        items {
-          id
-          name
-          description
-          createdAt
-          media
-          avatar
-          updatedAt
-        }
-        nextToken
-      }
-      image
-      userAvatar
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      groupMessages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateUserGroup = /* GraphQL */ `
   subscription OnCreateUserGroup {
     onCreateUserGroup {
@@ -517,12 +282,13 @@ export const onCreateUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -582,12 +348,13 @@ export const onUpdateUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -647,12 +414,13 @@ export const onDeleteUserGroup = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -688,486 +456,6 @@ export const onDeleteUserGroup = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateGroup = /* GraphQL */ `
-  subscription OnCreateGroup {
-    onCreateGroup {
-      id
-      groupOwner {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      name
-      description
-      members {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      media
-      avatar
-      updatedAt
-    }
-  }
-`;
-export const onUpdateGroup = /* GraphQL */ `
-  subscription OnUpdateGroup {
-    onUpdateGroup {
-      id
-      groupOwner {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      name
-      description
-      members {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      media
-      avatar
-      updatedAt
-    }
-  }
-`;
-export const onDeleteGroup = /* GraphQL */ `
-  subscription OnDeleteGroup {
-    onDeleteGroup {
-      id
-      groupOwner {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      name
-      description
-      members {
-        items {
-          id
-          groupID
-          memberID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          groupMessageGroupId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      media
-      avatar
-      updatedAt
-    }
-  }
-`;
-export const onCreateFriend = /* GraphQL */ `
-  subscription OnCreateFriend {
-    onCreateFriend {
-      id
-      name
-      friendImage
-      requester
-      friend {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendFriendId
-      friendChannelId
-      channel {
-        id
-        name
-        description
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        createdAt
-        image
-        updatedAt
-      }
-      request
-      blocked
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateFriend = /* GraphQL */ `
-  subscription OnUpdateFriend {
-    onUpdateFriend {
-      id
-      name
-      friendImage
-      requester
-      friend {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendFriendId
-      friendChannelId
-      channel {
-        id
-        name
-        description
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        createdAt
-        image
-        updatedAt
-      }
-      request
-      blocked
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteFriend = /* GraphQL */ `
-  subscription OnDeleteFriend {
-    onDeleteFriend {
-      id
-      name
-      friendImage
-      requester
-      friend {
-        id
-        name
-        email
-        userId
-        phone
-        aboutMe
-        groups {
-          nextToken
-        }
-        ownedGroups {
-          nextToken
-        }
-        image
-        userAvatar
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        groupMessages {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      friendFriendId
-      friendChannelId
-      channel {
-        id
-        name
-        description
-        friends {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        createdAt
-        image
-        updatedAt
-      }
-      request
-      blocked
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateChannel = /* GraphQL */ `
-  subscription OnCreateChannel {
-    onCreateChannel {
-      id
-      name
-      description
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      image
-      updatedAt
-    }
-  }
-`;
-export const onUpdateChannel = /* GraphQL */ `
-  subscription OnUpdateChannel {
-    onUpdateChannel {
-      id
-      name
-      description
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      image
-      updatedAt
-    }
-  }
-`;
-export const onDeleteChannel = /* GraphQL */ `
-  subscription OnDeleteChannel {
-    onDeleteChannel {
-      id
-      name
-      description
-      friends {
-        items {
-          id
-          name
-          friendImage
-          requester
-          friendFriendId
-          friendChannelId
-          request
-          blocked
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      messages {
-        items {
-          id
-          text
-          media
-          avatar
-          messageChannelId
-          messageUserName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      image
       updatedAt
     }
   }

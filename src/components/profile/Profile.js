@@ -78,13 +78,13 @@ function Profile() {
     <Card className={cx(cardStyles.root)}>
       <CardMedia
         classes={mediaStyles}
-        image={profile?.image}
-        src={
-          !profile?.image &&
-          'https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/white_wallpaper_5_4k_hd_white.jpg'
+        image={
+          profile?.image
+            ? profile.image
+            : 'https://portfolio2a1536c1a34d0480ca9c02a490b55f672123209-dev.s3-eu-west-1.amazonaws.com/public/white_wallpaper_5_4k_hd_white.jpg'
         }
       />
-      <Avatar className={cardStyles.avatar} src={profile?.avatar} />
+      <Avatar className={cardStyles.avatar} src={profile?.userAvatar} />
       <CardContent className={cardStyles.content}>
         <TextInfoContent
           classes={textCardContentStyles}

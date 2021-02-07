@@ -48,7 +48,6 @@ const FriendChat = () => {
     clearFriendChannel,
   } = friendContext;
 
-
   useEffect(() => {
     if (!loadingFriendChannel) {
       var subscribe = subscribeToMessages();
@@ -90,7 +89,7 @@ const FriendChat = () => {
                   <Grid item xs={12}>
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar alt="user avatar" src={message.media} />
+                        <Avatar alt="user avatar" src={message.avatar} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={
@@ -99,7 +98,8 @@ const FriendChat = () => {
                             : 'Unknown'
                         }
                       />
-                      {// eslint-disable-next-line
+                      {
+                        // eslint-disable-next-line
                       }
                       <ReactTimeAgo date={message.createdAt} locale="en-US" />
                     </ListItem>

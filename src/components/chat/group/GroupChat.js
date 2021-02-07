@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   },
 });
 
-const GroupChat = ({ setDisplayItem = (f) => f }) => {
+const GroupChat = () => {
   const classes = useStyles();
   const groupContext = useContext(GroupContext);
 
@@ -46,7 +46,8 @@ const GroupChat = ({ setDisplayItem = (f) => f }) => {
 
   useEffect(() => {
     if (group) {
-      let subscribe = subscribeToMessages();
+      var subscribe = subscribeToMessages();
+
       return () => {
         subscribe.unsubscribe();
       };
@@ -63,15 +64,14 @@ const GroupChat = ({ setDisplayItem = (f) => f }) => {
     const input = {
       groupMessageGroupId: group.id,
     };
+    console.log(input);
     const subscribe = API.graphql(
       graphqlOperation(onCreateGroupMessage, input)
     ).subscribe({
       next: (noteData) => {
-        if (noteData.value.data.onCreateGroupMessage) {
-          let message = noteData.value.data.onCreateGroupMessage;
-          console.log(noteData);
-          pushToGroupChat(message);
-        }
+        let message = noteData.value.data.onCreateGroupMessage;
+        console.log(noteData);
+        pushToGroupChat(message);
       },
     });
     return subscribe;
@@ -84,12 +84,12 @@ const GroupChat = ({ setDisplayItem = (f) => f }) => {
         <Grid item xs={12}>
           {' '}
           <List className={classes.messageArea}>
-            {group && group.messages.items.length !== 0 ? (
-              group.messages.items.map((message, index) => (
+            {group && group?.groupMessages?.items.length > 0 ? (
+              group.groupMessages.items.map((message, index) => (
                 <>
                   <ListItem key={message.id}>
                     <ListItemAvatar>
-                      <Avatar alt="user avatar" src={message.media} />
+                      <Avatar alt="user avatar" src={message.avatar} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={
@@ -103,7 +103,7 @@ const GroupChat = ({ setDisplayItem = (f) => f }) => {
                     }
                     <ReactTimeAgo date={message.createdAt} locale="en-US" />
                   </ListItem>
-                  <Grid container className={classes.chatResponse}>
+                  <Grid container className={classes.chatResponse} key={index}>
                     {' '}
                     <Grid item xs={12}>
                       {' '}

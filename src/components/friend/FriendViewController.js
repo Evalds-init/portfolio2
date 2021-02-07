@@ -3,7 +3,7 @@ import FriendHeader from './FriendHeader';
 import FriendList from './FriendList';
 import SearchField from './SearchField';
 import { FriendContext } from '../../context/friends/FriendState';
-function FriendFrame() {
+function FriendViewController() {
   const friendContext = useContext(FriendContext);
   const { friends } = friendContext;
   const [showSearch, setShowSearch] = useReducer(
@@ -19,4 +19,4 @@ function FriendFrame() {
   );
 }
 
-export default FriendFrame;
+export default FriendViewController;

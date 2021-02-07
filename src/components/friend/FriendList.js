@@ -54,8 +54,8 @@ function renderRow(props) {
               <Avatar
                 alt={updatedFriendList[index]?.name}
                 src={
-                  updatedFriendList[index]?.avatar
-                    ? updatedFriendList[index].avatar
+                  updatedFriendList[index]?.userAvatar
+                    ? updatedFriendList[index].userAvatar
                     : updatedFriendList[index]?.friendImage &&
                       updatedFriendList[index].friendImage
                 }

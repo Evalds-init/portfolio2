@@ -23,6 +23,7 @@ export const getUser = /* GraphQL */ `
       ownedGroups {
         items {
           id
+          owner
           name
           description
           createdAt
@@ -68,8 +69,8 @@ export const getUser = /* GraphQL */ `
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -174,12 +175,13 @@ export const getGroupMessage = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -187,8 +189,8 @@ export const getGroupMessage = /* GraphQL */ `
         avatar
         updatedAt
       }
-      groupMessageGroupId
       messageUserName
+      groupMessageGroupId
       createdAt
       updatedAt
     }
@@ -220,6 +222,7 @@ export const listGroupMessages = /* GraphQL */ `
         avatar
         group {
           id
+          owner
           name
           description
           createdAt
@@ -227,8 +230,8 @@ export const listGroupMessages = /* GraphQL */ `
           avatar
           updatedAt
         }
-        groupMessageGroupId
         messageUserName
+        groupMessageGroupId
         createdAt
         updatedAt
       }
@@ -267,6 +270,7 @@ export const getGroup = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      owner
       name
       description
       members {
@@ -279,14 +283,14 @@ export const getGroup = /* GraphQL */ `
         }
         nextToken
       }
-      messages {
+      groupMessages {
         items {
           id
           text
           media
           avatar
-          groupMessageGroupId
           messageUserName
+          groupMessageGroupId
           createdAt
           updatedAt
         }
@@ -320,12 +324,13 @@ export const listGroups = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        owner
         name
         description
         members {
           nextToken
         }
-        messages {
+        groupMessages {
           nextToken
         }
         createdAt
@@ -592,6 +597,53 @@ export const listChannels = /* GraphQL */ `
         }
         createdAt
         image
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const byGroupName = /* GraphQL */ `
+  query ByGroupName(
+    $name: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelGroupFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byGroupName(
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        groupOwner {
+          id
+          name
+          email
+          userId
+          phone
+          aboutMe
+          image
+          userAvatar
+          createdAt
+          updatedAt
+        }
+        owner
+        name
+        description
+        members {
+          nextToken
+        }
+        groupMessages {
+          nextToken
+        }
+        createdAt
+        media
+        avatar
         updatedAt
       }
       nextToken
